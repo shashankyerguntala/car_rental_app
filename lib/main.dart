@@ -1,5 +1,6 @@
 import 'package:car_rental_app/screens/home/bloc/home_bloc.dart';
 import 'package:car_rental_app/screens/home/home_page.dart';
+import 'package:car_rental_app/screens/trip/bloc/trip_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,12 +15,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final bloc = HomeBloc();
-        bloc.add(LoadCars());
-        return bloc;
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (context) {
+            final bloc = HomeBloc();
+            bloc.add(LoadCars());
+            return bloc;
+          },
+        ),
+        BlocProvider<TripBloc>(create: (_) => TripBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Car Rental App',
