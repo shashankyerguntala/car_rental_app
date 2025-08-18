@@ -1,4 +1,4 @@
-import 'package:car_rental_app/features/Trip/bloc/trip_bloc.dart';
+import 'package:car_rental_app/bloc/trip_bloc/trip_bloc.dart';
 import 'package:car_rental_app/features/Trip/trip_details/widgets/custom_text_field.dart';
 import 'package:car_rental_app/features/Trip/trip_details/widgets/end_date_picker.dart';
 import 'package:car_rental_app/features/Trip/trip_details/widgets/start_date_picker.dart';

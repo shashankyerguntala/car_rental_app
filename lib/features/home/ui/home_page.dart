@@ -3,7 +3,7 @@ import 'package:car_rental_app/features/Trip/upcoming_trips/upcoming_trips.dart'
 
 import 'package:car_rental_app/features/details_page/details_page.dart';
 
-import 'package:car_rental_app/features/home/bloc/home_bloc.dart';
+import 'package:car_rental_app/bloc/home_bloc/home_bloc.dart';
 import 'package:car_rental_app/widgets/home_widgets/bottom_bar.dart';
 
 import 'package:car_rental_app/widgets/home_widgets/grid_cars.dart';

@@ -1,5 +1,5 @@
-import 'package:car_rental_app/features/Trip/bloc/trip_bloc.dart';
-import 'package:car_rental_app/features/home/bloc/home_bloc.dart';
+import 'package:car_rental_app/bloc/trip_bloc/trip_bloc.dart';
+import 'package:car_rental_app/bloc/home_bloc/home_bloc.dart';
 import 'package:car_rental_app/features/home/ui/home_page.dart';
 
 import 'package:flutter/material.dart';

@@ -1,8 +1,4 @@
 import 'package:car_rental_app/bloc/trip_bloc/trip_bloc.dart';
-import 'package:car_rental_app/widgets/helper/confirmation_sheet.dart';
-import 'package:car_rental_app/widgets/helper/date_col.dart';
-import 'package:car_rental_app/widgets/helper/extra_row.dart';
-import 'package:car_rental_app/widgets/helper/loaction_col.dart';
 import 'package:car_rental_app/model/trip_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,8 +43,8 @@ class YourTripScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    dateColumn("Pick-up", trip.rentalStart),
-                    dateColumn("Drop-off", trip.rentalEnd),
+                    buildDateColumn("Pick-up", trip.rentalStart),
+                    buildDateColumn("Drop-off", trip.rentalEnd),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -64,8 +60,8 @@ class YourTripScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    locationColumn("Pick-up", trip.pickupLocation),
-                    locationColumn("Drop-off", trip.dropoffLocation),
+                    buildLocationColumn("Pick-up", trip.pickupLocation),
+                    buildLocationColumn("Drop-off", trip.dropoffLocation),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -160,12 +156,12 @@ class YourTripScreen extends StatelessWidget {
                   ),
                 ),
 
-                extraRow(
+                buildExtraRow(
                   "Rental car protection",
                   "\$15/day",
                   trip.insurance ? "Added" : "Add",
                 ),
-                extraRow("GPS", "\$10/day", trip.gps ? "Added" : "Add"),
+                buildExtraRow("GPS", "\$10/day", trip.gps ? "Added" : "Add"),
                 const SizedBox(height: 24),
 
                 Row(
@@ -216,6 +212,144 @@ class YourTripScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void showBookingConfirmationSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 4,
+                width: 40,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Text(
+                "Booking Confirmed",
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                "Your car rental has been successfully booked.\nYou will receive a confirmation email shortly.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(193, 252, 74, 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  child: Text(
+                    "OK",
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildDateColumn(String label, DateTime? date) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          date != null
+              ? "${date.day}/${date.month}/${date.year}"
+              : "Not selected",
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildLocationColumn(String label, String? location) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          location ?? "Not selected",
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildExtraRow(String title, String subtitle, String actionText) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: const Icon(Icons.shield),
+      title: Text(
+        title,
+        style: GoogleFonts.plusJakartaSans(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: GoogleFonts.plusJakartaSans(color: Colors.grey[600]),
+      ),
+      trailing: Text(
+        actionText,
+        style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600),
       ),
     );
   }
