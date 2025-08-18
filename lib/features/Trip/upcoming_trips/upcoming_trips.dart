@@ -1,4 +1,5 @@
 import 'package:car_rental_app/features/Trip/bloc/trip_bloc.dart';
+import 'package:car_rental_app/features/Trip/trip_completed/trip_completed.dart';
 import 'package:car_rental_app/model/trip_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,20 +45,30 @@ class _UpcomingTripsState extends State<UpcomingTrips> {
     String dateRange =
         "${DateFormat.MMMd().format(trip.rentalStart)} - ${DateFormat.MMMd().format(trip.rentalEnd)}";
 
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(12),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image(image: AssetImage(trip.car.imageUrl)),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TripCompletedScreen(trip: trip),
+          ),
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(12),
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image(image: AssetImage(trip.car.imageUrl)),
+          ),
+          title: Text(
+            trip.car.make,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text("$dateRange • ${trip.dropoffLocation}"),
         ),
-        title: Text(
-          trip.car.make,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text("$dateRange • ${trip.dropoffLocation}"),
       ),
     );
   }
