@@ -21,8 +21,6 @@ class TripDetailsPage extends StatefulWidget {
 class _TripDetailsPageState extends State<TripDetailsPage> {
   final TextEditingController pickupController = TextEditingController();
   final TextEditingController dropoffController = TextEditingController();
-  DateTime? rentalStart;
-  DateTime? rentalEnd;
 
   bool insuranceSelected = false;
   bool gpsSelected = false;
@@ -133,11 +131,24 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
+                      final tripState = context.read<TripBloc>().state;
+
+                      DateTime startDate = DateTime.now();
+                      DateTime endDate = DateTime.now();
+
+                      if (tripState is TripDatesSelected) {
+                        if (tripState.startDate != null) {
+                          startDate = tripState.startDate!;
+                        }
+                        if (tripState.endDate != null) {
+                          endDate = tripState.endDate!;
+                        }
+                      }
                       final trip = Trip(
                         pickupLocation: pickupController.text,
                         dropoffLocation: dropoffController.text,
-                        rentalStart: rentalStart ?? DateTime.now(),
-                        rentalEnd: rentalEnd ?? DateTime.now(),
+                        rentalStart: startDate,
+                        rentalEnd: endDate,
                         insurance: insuranceSelected,
                         gps: gpsSelected,
                         totalPrice: 1,
