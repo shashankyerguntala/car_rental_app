@@ -1,6 +1,6 @@
 import 'package:car_rental_app/bloc/trip_bloc/trip_bloc.dart';
 import 'package:car_rental_app/bloc/home_bloc/home_bloc.dart';
-import 'package:car_rental_app/features/home/ui/home_page.dart';
+import 'package:car_rental_app/features/home/home_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
