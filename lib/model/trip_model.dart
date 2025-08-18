@@ -22,13 +22,4 @@ class Trip {
 
     required this.car,
   });
-
-  double get addOns {
-    double addons = 0;
-    if (insurance) addons += 15;
-    if (gps) addons += 10;
-
-    final days = rentalEnd.difference(rentalStart).inDays;
-    return addons * (days > 0 ? days : 1);
-  }
 }
