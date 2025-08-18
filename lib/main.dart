@@ -1,6 +1,7 @@
-import 'package:car_rental_app/screens/home/bloc/home_bloc.dart';
-import 'package:car_rental_app/screens/home/home_page.dart';
-import 'package:car_rental_app/screens/trip/bloc/trip_bloc.dart';
+import 'package:car_rental_app/features/Trip/bloc/trip_bloc.dart';
+import 'package:car_rental_app/features/home/bloc/home_bloc.dart';
+import 'package:car_rental_app/features/home/ui/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,13 +19,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeBloc>(
-          create: (context) {
-            final bloc = HomeBloc();
-            bloc.add(LoadCars());
-            return bloc;
-          },
+          create: (context) => HomeBloc()..add(LoadCars()),
         ),
-        BlocProvider<TripBloc>(create: (_) => TripBloc()),
+        BlocProvider<TripBloc>(create: (context) => TripBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

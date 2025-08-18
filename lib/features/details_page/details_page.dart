@@ -1,19 +1,30 @@
-import 'package:car_rental_app/screens/trip/ui/trip_details.dart';
+import 'package:car_rental_app/features/Trip/trip_details/trip_details_form.dart';
+
 import 'package:car_rental_app/widgets/label.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../model/car_model.dart';
 
-class DetailsPage extends StatelessWidget {
+class AboutThis extends StatefulWidget {
   final Car car;
 
-  const DetailsPage({super.key, required this.car});
+  const AboutThis({super.key, required this.car});
 
+  @override
+  State<AboutThis> createState() => _AboutThisState();
+}
+
+class _AboutThisState extends State<AboutThis> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
@@ -28,7 +39,7 @@ class DetailsPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Image(
-                  image: AssetImage(car.imageUrl2),
+                  image: AssetImage(widget.car.imageUrl2),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -54,11 +65,14 @@ class DetailsPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Row(
                         children: [
-                          Label(title: 'Make', value: car.make),
+                          Label(title: 'Make', value: widget.car.make),
 
                           Padding(
                             padding: const EdgeInsets.only(left: 24),
-                            child: Label(title: 'Model', value: car.model),
+                            child: Label(
+                              title: 'Model',
+                              value: widget.car.model,
+                            ),
                           ),
                         ],
                       ),
@@ -69,7 +83,7 @@ class DetailsPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
-                      child: Label(value: car.year, title: 'Year'),
+                      child: Label(value: widget.car.year, title: 'Year'),
                     ),
 
                     Padding(
@@ -100,7 +114,7 @@ class DetailsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      car.rentalTerms,
+                      widget.car.rentalTerms,
                       style: GoogleFonts.plusJakartaSans(fontSize: 16),
                     ),
 
@@ -120,7 +134,7 @@ class DetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Label(
                             title: "Daily Rate",
-                            value: "\$${car.dailyRate}",
+                            value: "\$${widget.car.dailyRate}",
                           ),
                         ),
 
@@ -128,7 +142,7 @@ class DetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 24.0),
                           child: Label(
                             title: 'Total (3 days)',
-                            value: '\$${car.dailyRate * 3}',
+                            value: '\$${widget.car.dailyRate * 3}',
                           ),
                         ),
                       ],
@@ -154,7 +168,8 @@ class DetailsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TripDetailsPage(car: car),
+                          builder: (context) =>
+                              TripDetailsPage(car: widget.car),
                         ),
                       );
                     },

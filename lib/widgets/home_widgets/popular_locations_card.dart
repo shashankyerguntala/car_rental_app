@@ -2,12 +2,12 @@ import 'package:car_rental_app/constants.dart';
 
 import 'package:flutter/material.dart';
 
-class PopularLocationsCarousel extends StatelessWidget {
+class PopularLocationsCard extends StatelessWidget {
   final String imageUrl;
   final String cityName;
-  final int rate;
+  final String rate;
 
-  const PopularLocationsCarousel({
+  const PopularLocationsCard({
     super.key,
     required this.imageUrl,
     required this.cityName,

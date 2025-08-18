@@ -10,3 +10,5 @@ class ClickedCar extends HomeEvent {
 
   ClickedCar({required this.car});
 }
+
+class ClickedTripSection extends HomeEvent {}

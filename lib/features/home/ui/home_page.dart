@@ -1,11 +1,15 @@
 import 'package:car_rental_app/constants.dart';
+import 'package:car_rental_app/features/Trip/upcoming_trips/upcoming_trips.dart';
 
-import 'package:car_rental_app/screens/details_page/details_page.dart';
+import 'package:car_rental_app/features/details_page/details_page.dart';
 
-import 'package:car_rental_app/screens/home/bloc/home_bloc.dart';
-import 'package:car_rental_app/widgets/car_cards.dart';
+import 'package:car_rental_app/features/home/bloc/home_bloc.dart';
+import 'package:car_rental_app/widgets/home_widgets/bottom_bar.dart';
 
-import 'package:car_rental_app/widgets/popular_locations_carousel.dart';
+import 'package:car_rental_app/widgets/home_widgets/grid_cars.dart';
+import 'package:car_rental_app/widgets/home_widgets/last_minute_deals.dart';
+import 'package:car_rental_app/widgets/home_widgets/popular_locations_card.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +22,8 @@ class HomePage extends StatefulWidget {
   }
 }
 
+late TextEditingController text;
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color(0xFFFFFFFF),
         centerTitle: true,
         title: Text(
-          'Rentals',
+          'Rental',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -74,16 +80,16 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    PopularLocationsCarousel(
+                    PopularLocationsCard(
                       imageUrl: 'assets/locations/newyork.png',
                       cityName: 'New York',
-                      rate: 50,
+                      rate: 50.toString(),
                     ),
                     const SizedBox(width: 12),
-                    PopularLocationsCarousel(
+                    PopularLocationsCard(
                       imageUrl: 'assets/locations/miami.png',
                       cityName: 'Miami',
-                      rate: 45,
+                      rate: 45.toString(),
                     ),
                   ],
                 ),
@@ -102,8 +108,14 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailsPage(car: state.car),
+                        builder: (context) => AboutThis(car: state.car),
                       ),
+                    );
+                  }
+                  if (state is NavigateToTripSection) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UpcomingTrips()),
                     );
                   }
                 },
@@ -111,36 +123,17 @@ class _HomePageState extends State<HomePage> {
                   if (state is CarsLoaded) {
                     final cars = state.car;
 
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: cars.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 0.8,
-                          ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            context.read<HomeBloc>().add(
-                              ClickedCar(car: cars[index]),
-                            );
-                          },
-                          child: CarCards(car: cars[index]),
-                        );
-                      },
-                    );
+                    return RentalCategoryGrid(cars: cars);
                   }
-                  return Center(child: Text('doomed'));
+                  return Center(child: Text('fucked'));
                 },
               ),
+              LastMinuteDealsSection(),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: BottomBar(),
     );
   }
 }

@@ -16,3 +16,5 @@ class NavigateToDetails extends HomeState {
 
   NavigateToDetails({required this.car});
 }
+
+class NavigateToTripSection extends HomeState {}
