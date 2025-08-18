@@ -30,7 +30,7 @@ class _StartDatePickerState extends State<StartDatePicker> {
           },
           child: BlocBuilder<TripBloc, TripState>(
             builder: (context, state) {
-              String text = "Select Start Date";
+              String text = "";
 
               if (state is TripDatesSelected && state.startDate != null) {
                 text = state.startDate!.toLocal().toString().split(" ")[0];
@@ -43,7 +43,13 @@ class _StartDatePickerState extends State<StartDatePicker> {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(text, style: const TextStyle(fontSize: 16)),
+                child: Row(
+                  children: [
+                    Text(text, style: const TextStyle(fontSize: 16)),
+                    Spacer(),
+                    Icon(Icons.calendar_month),
+                  ],
+                ),
               );
             },
           ),

@@ -133,17 +133,58 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     onPressed: () {
                       final tripState = context.read<TripBloc>().state;
 
-                      DateTime startDate = DateTime.now();
-                      DateTime endDate = DateTime.now();
+                      if (pickupController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please enter Pickup Location"),
+                          ),
+                        );
+                        return;
+                      }
+                      if (dropoffController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please enter Dropoff Location"),
+                          ),
+                        );
+                        return;
+                      }
+
+                      DateTime? startDate;
+                      DateTime? endDate;
 
                       if (tripState is TripDatesSelected) {
-                        if (tripState.startDate != null) {
-                          startDate = tripState.startDate!;
-                        }
-                        if (tripState.endDate != null) {
-                          endDate = tripState.endDate!;
-                        }
+                        startDate = tripState.startDate;
+                        endDate = tripState.endDate;
                       }
+
+                      if (startDate == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please select Rental Start Date"),
+                          ),
+                        );
+                        return;
+                      }
+                      if (endDate == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please select Rental End Date"),
+                          ),
+                        );
+                        return;
+                      }
+                      if (endDate.isBefore(startDate)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "End Date cannot be before Start Date",
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
                       final trip = Trip(
                         pickupLocation: pickupController.text,
                         dropoffLocation: dropoffController.text,
@@ -151,15 +192,16 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         rentalEnd: endDate,
                         insurance: insuranceSelected,
                         gps: gpsSelected,
-                        totalPrice: 1,
+                        totalPrice: 250,
                         car: widget.car,
                       );
+
                       context.read<TripBloc>().add(
                         ClickedConfirmTrip(trip: trip),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffC1FC4A),
+                      backgroundColor: const Color(0xffC1FC4A),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
